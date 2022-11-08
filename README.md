@@ -1,4 +1,3 @@
 # composeViewModel
-Compose With ViewModel
+Compose With ViewModel With Retrofit
 
-안드로이드 컴포즈와 뷰모델로 API 데이터 
