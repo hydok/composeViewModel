@@ -1,19 +1,16 @@
 package io.hydok.composeviewmodel
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,7 +27,7 @@ fun MainApp(
     ComposeViewModelTheme {
 
         Surface(
-            modifier = Modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
             MovieList(viewModel.movieListData)
@@ -70,14 +67,13 @@ fun MovieItem(movie: Movie, index: Int, selectedIndex: Int, onClick: (Int) -> Un
 
             Row(
                 Modifier
-                    .padding(4.dp)
+                    .padding(2.dp)
                     .fillMaxSize()
             ) {
 
                 Image(
                     painter = rememberImagePainter(
                         data = movie.imageUrl,
-
                         builder = {
                             scale(coil.size.Scale.FILL)
                             placeholder(R.drawable.ic_launcher_foreground)
@@ -88,30 +84,29 @@ fun MovieItem(movie: Movie, index: Int, selectedIndex: Int, onClick: (Int) -> Un
                     contentDescription = movie.desc,
                     modifier = Modifier
                         .fillMaxHeight()
-                        .weight(0.2f)
+                        .padding(12.dp)
+                        .weight(0.3f)
                 )
-
 
                 Column(
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .padding(4.dp)
                         .fillMaxHeight()
-                        .weight(0.8f)
+                        .weight(0.7f)
                 ) {
                     Text(
                         text = movie.name,
                         style = MaterialTheme.typography.subtitle1,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.ExtraBold,
                     )
+                    Box(modifier = Modifier.height(10.dp))
                     Text(
                         text = movie.category,
                         style = MaterialTheme.typography.caption,
                         modifier = Modifier
-                            .background(
-                                Color.LightGray
-                            )
-                            .padding(4.dp)
+                            .border(border = BorderStroke(1.dp, Color.Black), shape = CircleShape)
+                            .padding(top = 2.dp, bottom = 2.dp, start = 10.dp, end = 10.dp)
                     )
                     Text(
                         text = movie.desc,
