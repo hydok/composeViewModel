@@ -10,7 +10,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,23 +22,32 @@ import io.hydok.composeviewmodel.ui.theme.ComposeViewModelTheme
 fun MainApp(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel = MainViewModel()
-){
+) {
     ComposeViewModelTheme {
 
         Surface(
             modifier = modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
+            color = MaterialTheme.colors.background,
         ) {
-            MovieList(viewModel.movieListData)
+
+            if (viewModel.movieListData.isEmpty()) {
+                Box(
+                    modifier = Modifier.height(20.dp)
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                MovieList(viewModel.movieListData)
+            }
+
         }
     }
     viewModel.getMovieList()
 }
 
 
-
 @Composable
-fun MovieList(movieList: List<Movie>){
+fun MovieList(movieList: List<Movie>) {
     var selectedIndex by remember { mutableStateOf(-1) }
 
     LazyColumn {
@@ -53,7 +61,7 @@ fun MovieList(movieList: List<Movie>){
 }
 
 @Composable
-fun MovieItem(movie: Movie, index: Int, selectedIndex: Int, onClick: (Int) -> Unit){
+fun MovieItem(movie: Movie, index: Int, selectedIndex: Int, onClick: (Int) -> Unit) {
     val backgroundColor =
         if (index == selectedIndex) MaterialTheme.colors.secondary else MaterialTheme.colors.background
     Card(
@@ -61,7 +69,8 @@ fun MovieItem(movie: Movie, index: Int, selectedIndex: Int, onClick: (Int) -> Un
             .padding(8.dp, 4.dp)
             .fillMaxWidth()
             .clickable { onClick(index) }
-            .height(110.dp), shape = RoundedCornerShape(8.dp), elevation = 4.dp,
+            .height(110.dp),
+        shape = RoundedCornerShape(8.dp), elevation = 4.dp,
     ) {
         Surface(color = backgroundColor) {
 
