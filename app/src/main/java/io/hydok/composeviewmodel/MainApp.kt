@@ -1,5 +1,11 @@
 package io.hydok.composeviewmodel
 
+import android.opengl.Visibility
+import androidx.compose.animation.*
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,21 +37,44 @@ fun MainApp(
             color = MaterialTheme.colors.background,
         ) {
 
-            if (viewModel.movieListData.isEmpty()) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
+            //if (viewModel.movieListData.isEmpty()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                AnimatedVisibility(
+                    visible = viewModel.movieListData.isEmpty(),
+                    exit = fadeOut()
                 ) {
                     CircularProgressIndicator()
                 }
-            } else {
-                MovieList(viewModel.movieListData)
+                AnimatedVisibility(
+                    visible = viewModel.movieListData.isNotEmpty(),
+                    enter = slideInVertically { - it } //fadeIn(animationSpec = tween(1000))
+                ) {
+                    MovieList(viewModel.movieListData)
+                }
             }
 
         }
     }
     viewModel.getMovieList()
 }
+
+/*@Composable
+fun AnimatedVisibility(
+    visible: Boolean,
+    modifier: Modifier = Modifier,
+    enter: EnterTransition = fadeIn(),
+    exit: ExitTransition = fadeOut(),
+    label: String = "AnimatedVisibility",
+    content: @Composable AnimatedVisibilityScope.() -> Unit
+) {
+    val transition = updateTransition(visible, label)
+    androidx.compose.animation.AnimatedVisibility(visibleState = ) {
+
+    }
+}*/
 
 
 @Composable
