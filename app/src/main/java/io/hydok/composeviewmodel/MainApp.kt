@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -32,7 +33,8 @@ fun MainApp(
 
             if (viewModel.movieListData.isEmpty()) {
                 Box(
-                    modifier = Modifier.height(20.dp)
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
                 ) {
                     CircularProgressIndicator()
                 }
@@ -51,7 +53,6 @@ fun MovieList(movieList: List<Movie>) {
     var selectedIndex by remember { mutableStateOf(-1) }
 
     LazyColumn {
-
         itemsIndexed(items = movieList) { index, item ->
             MovieItem(movie = item, index, selectedIndex) { i ->
                 selectedIndex = i
@@ -128,9 +129,7 @@ fun MovieItem(movie: Movie, index: Int, selectedIndex: Int, onClick: (Int) -> Un
             }
         }
     }
-
 }
-
 
 @Preview(showBackground = true)
 @Composable
